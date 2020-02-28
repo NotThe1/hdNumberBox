@@ -1,7 +1,6 @@
 package testHDNumberBox;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,6 +16,7 @@ import javax.swing.JToggleButton;
 import hdNumberBox.HDNumberBox;
 import hdNumberBox.HDNumberValueChangeEvent;
 import hdNumberBox.HDNumberValueChangeListener;
+import hdNumberBox.HDSeekPanel;
 
 public class TestHDNumberBox {
 	HDNumberBox box;
@@ -30,6 +30,7 @@ public class TestHDNumberBox {
 	private JLabel lblSource;
 	private JLabel lblOldValue;
 	private JLabel lblNewValue;
+	private HDSeekPanel seekPanel;
 
 	/**
 	 * Launch the application.
@@ -59,7 +60,6 @@ public class TestHDNumberBox {
 	 * Create the application.
 	 */
 	private void appInit() {
-		box.setPreferredSize(new Dimension(50, 30));
 		box.setValueQuiet(17);
 		tbHexDecimal.setText("Decimal");
 		box.setDecimalDisplay();
@@ -79,9 +79,9 @@ public class TestHDNumberBox {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
 		tbHexDecimal = new JToggleButton("Decimal");
@@ -187,10 +187,26 @@ public class TestHDNumberBox {
 		frame.getContentPane().add(lblNewValue, gbc_lblNewValue);
 		GridBagConstraints gbc_btnFmtx = new GridBagConstraints();
 		gbc_btnFmtx.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnFmtx.insets = new Insets(0, 0, 0, 5);
+		gbc_btnFmtx.insets = new Insets(0, 0, 5, 5);
 		gbc_btnFmtx.gridx = 0;
 		gbc_btnFmtx.gridy = 8;
 		frame.getContentPane().add(btnFmtx, gbc_btnFmtx);
+		
+		seekPanel = new HDSeekPanel();
+		seekPanel.setMinValue(0);
+		seekPanel.setMaxValue(256);
+		GridBagConstraints gbc_seekPanel = new GridBagConstraints();
+		gbc_seekPanel.insets = new Insets(0, 0, 0, 5);
+		gbc_seekPanel.fill = GridBagConstraints.VERTICAL;
+		gbc_seekPanel.gridx = 0;
+		gbc_seekPanel.gridy = 9;
+		frame.getContentPane().add(seekPanel, gbc_seekPanel);
+		GridBagLayout gbl_seekPanel = new GridBagLayout();
+		gbl_seekPanel.columnWidths = new int[]{0};
+		gbl_seekPanel.rowHeights = new int[]{0};
+		gbl_seekPanel.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_seekPanel.rowWeights = new double[]{Double.MIN_VALUE};
+		seekPanel.setLayout(gbl_seekPanel);
 
 	}// initialize
 
