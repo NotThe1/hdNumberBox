@@ -14,9 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 
-import HDNumberBox.HDNumberBox;
-import HDNumberBox.HDNumberValueChangeEvent;
-import HDNumberBox.HDNumberValueChangeListener;
+import hdNumberBox.HDNumberBox;
+import hdNumberBox.HDNumberValueChangeEvent;
+import hdNumberBox.HDNumberValueChangeListener;
 
 public class TestHDNumberBox {
 	HDNumberBox box;
