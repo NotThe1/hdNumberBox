@@ -1,6 +1,7 @@
 package testHDNumberBox;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,14 +13,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import hdNumberBox.HDNumberBox;
 import hdNumberBox.HDNumberValueChangeEvent;
 import hdNumberBox.HDNumberValueChangeListener;
 import hdNumberBox.HDSeekPanel;
+import hdNumberBox.HDformattedTextField;
+import hdNumberBox.Hex64KSpinner;
 
 public class TestHDNumberBox {
-	HDNumberBox box;
+	HDformattedTextField box;
 	private AdapterHDNumberBoxTest adapter = new AdapterHDNumberBoxTest();
 
 	private JFrame frame;
@@ -31,6 +37,10 @@ public class TestHDNumberBox {
 	private JLabel lblOldValue;
 	private JLabel lblNewValue;
 	private HDSeekPanel seekPanel;
+	private Hex64KSpinner hex64KSpinner;
+	private Hex64KSpinner hex64KSpinner_1;
+	private HDNumberBox numberBox;
+
 
 	/**
 	 * Launch the application.
@@ -62,7 +72,6 @@ public class TestHDNumberBox {
 	private void appInit() {
 		box.setValueQuiet(17);
 		tbHexDecimal.setText("Decimal");
-		box.setDecimalDisplay();
 	}// appInit
 
 	public TestHDNumberBox() {
@@ -75,13 +84,13 @@ public class TestHDNumberBox {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 450, 433);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
 		tbHexDecimal = new JToggleButton("Decimal");
@@ -102,16 +111,24 @@ public class TestHDNumberBox {
 		gbc_tbHexDecimal.gridx = 0;
 		gbc_tbHexDecimal.gridy = 0;
 		frame.getContentPane().add(tbHexDecimal, gbc_tbHexDecimal);
-
-		box = new HDNumberBox();
+		
+		box = new HDformattedTextField();
+		box.setMinimumSize(new Dimension(55, 20));
 		box.addHDNumberValueChangedListener(adapter);
-		box.setName("box");
+		box.setHorizontalAlignment(SwingConstants.RIGHT);
+		box.setName("Box");
+//		box = new HDformattedTextField();
+//		box.setPreferredSize(new Dimension(400, 30));
+//		box.setMinimumSize(new Dimension(55, 20));
+//		box.setMaximumSize(new Dimension(0, 0));
+//		box.setName("box");
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.anchor = GridBagConstraints.WEST;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 1;
 		frame.getContentPane().add(box, gbc_panel);
+		
+		
 
 		JButton btnNewButton = new JButton("Min 0, Max 64K");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -121,6 +138,20 @@ public class TestHDNumberBox {
 			box.setRange(0, 0xFFFF);
 			}
 		});
+		
+		hex64KSpinner = new Hex64KSpinner();
+		hex64KSpinner.setMinimumSize(new Dimension(55, 20));
+		hex64KSpinner.addChangeListener(adapter);
+		hex64KSpinner.setName("64KSpinner");
+//		hex64KSpinner.setBorder(UIManager.getBorder("Spinner.border"));
+		hex64KSpinner.setSize(new Dimension(60, 30));
+		hex64KSpinner.setMaximumSize(new Dimension(0, 0));
+		hex64KSpinner.setPreferredSize(new Dimension(0, 0));
+		GridBagConstraints gbc_hex64KSpinner = new GridBagConstraints();
+		gbc_hex64KSpinner.insets = new Insets(0, 0, 5, 0);
+		gbc_hex64KSpinner.gridx = 1;
+		gbc_hex64KSpinner.gridy = 1;
+		frame.getContentPane().add(hex64KSpinner, gbc_hex64KSpinner);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
@@ -135,6 +166,13 @@ public class TestHDNumberBox {
 				box.setValueQuiet(0x100);
 			}
 		});
+		
+		hex64KSpinner_1 = new Hex64KSpinner();
+		GridBagConstraints gbc_hex64KSpinner_1 = new GridBagConstraints();
+		gbc_hex64KSpinner_1.insets = new Insets(0, 0, 5, 0);
+		gbc_hex64KSpinner_1.gridx = 1;
+		gbc_hex64KSpinner_1.gridy = 2;
+		frame.getContentPane().add(hex64KSpinner_1, gbc_hex64KSpinner_1);
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 0;
@@ -148,6 +186,20 @@ public class TestHDNumberBox {
 				box.setValue(0x256);
 			}
 		});
+		
+		numberBox = new HDNumberBox();
+		GridBagConstraints gbc_numberBox = new GridBagConstraints();
+		gbc_numberBox.insets = new Insets(0, 0, 5, 0);
+		gbc_numberBox.fill = GridBagConstraints.BOTH;
+		gbc_numberBox.gridx = 1;
+		gbc_numberBox.gridy = 3;
+		frame.getContentPane().add(numberBox, gbc_numberBox);
+		GridBagLayout gbl_numberBox = new GridBagLayout();
+		gbl_numberBox.columnWidths = new int[]{0, 0, 0};
+		gbl_numberBox.rowHeights = new int[]{0, 0};
+		gbl_numberBox.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_numberBox.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		numberBox.setLayout(gbl_numberBox);
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.gridx = 0;
@@ -193,10 +245,12 @@ public class TestHDNumberBox {
 		frame.getContentPane().add(btnFmtx, gbc_btnFmtx);
 		
 		seekPanel = new HDSeekPanel();
+		seekPanel.setMinimumSize(new Dimension(250, 30));
 		seekPanel.setMinValue(0);
 		seekPanel.setMaxValue(256);
 		GridBagConstraints gbc_seekPanel = new GridBagConstraints();
-		gbc_seekPanel.insets = new Insets(0, 0, 0, 5);
+		gbc_seekPanel.anchor = GridBagConstraints.WEST;
+		gbc_seekPanel.insets = new Insets(0, 0, 5, 5);
 		gbc_seekPanel.fill = GridBagConstraints.VERTICAL;
 		gbc_seekPanel.gridx = 0;
 		gbc_seekPanel.gridy = 9;
@@ -210,7 +264,7 @@ public class TestHDNumberBox {
 
 	}// initialize
 
-	class AdapterHDNumberBoxTest implements HDNumberValueChangeListener {
+	class AdapterHDNumberBoxTest implements HDNumberValueChangeListener,ChangeListener {
 		/* ------------ HDNumberValueChangeListener ----------------- */
 		@Override
 		public void valueChanged(HDNumberValueChangeEvent changeEvent) {
@@ -223,6 +277,15 @@ public class TestHDNumberBox {
 			lblOldValue.setText(String.format("%X",changeEvent.getOldValue()));
 			lblNewValue.setText(String.format("%X",changeEvent.getNewValue()));
 		}//valueChanged
+
+		@Override
+		public void stateChanged(ChangeEvent changeEvent) {
+			changeEvent.getSource();
+			String name = ((Hex64KSpinner) changeEvent.getSource()).getName();
+			int value = (int) ((Hex64KSpinner) changeEvent.getSource()).getValue();
+			System.out.printf("%s %d%n", name,value);
+			
+		}
 
 	}// class AdapterHDNumberBoxTest
 

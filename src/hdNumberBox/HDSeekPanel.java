@@ -77,6 +77,7 @@ public class HDSeekPanel extends HDNumberBox {
 	public void initialize() {
 
 		setPreferredSize(new Dimension(385, 30));
+		setMinimumSize(new Dimension(385, 30));
 
 		JButton btnFirst = new JButton("<<");
 		btnFirst.setMaximumSize(new Dimension(0, 0));

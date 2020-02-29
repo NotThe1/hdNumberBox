@@ -2,7 +2,8 @@ package hdNumberBox;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.regex.Matcher;
@@ -20,26 +21,28 @@ import javax.swing.event.EventListenerList;
 
 /**
  * 
- * @author Frank Martyn. This is a text box that only accepts either decimal or hexadecimal numbers.
- *         It supports a DefaultBoundedRangeModel to manage the values range of input data.
- *         The value input is limited byte the DefaultBoundedRangeModel. 
- *         If value is greater than Max the value will be fixed to Max Value.
- *         Similarly if less than Min, the value will be fixed at Min Value.
+ * @author Frank Martyn. This is a text box that only accepts either decimal or
+ *         hexadecimal numbers. It supports a DefaultBoundedRangeModel to manage
+ *         the values range of input data. The value input is limited byte the
+ *         DefaultBoundedRangeModel. If value is greater than Max the value will
+ *         be fixed to Max Value. Similarly if less than Min, the value will be
+ *         fixed at Min Value.
  * 
  *         The range of the value is Integer.Min to Integer.MAX.
  * 
- *         This class supports a HDNumberValueChangeListener that will fire a HDNumberValueChangeEvent
- *         when the value changes
- *        
- *         The method mute(boolean state) disables/enables the fireSeekValueChanged() method,
- *         so values can be changed without triggering events
- *         
- *			2018-03-01 - added setValueQuiet(int value);
- *			2018-07-21 - Factored out (SeekDocument) DisplayDocument
- *                     - Added capacity to set/reset display formats
- *          2018-07-30 - added Apater_HDNumberBox. & selectAll on focus gained
+ *         This class supports a HDNumberValueChangeListener that will fire a
+ *         HDNumberValueChangeEvent when the value changes
+ * 
+ *         The method mute(boolean state) disables/enables the
+ *         fireSeekValueChanged() method, so values can be changed without
+ *         triggering events
+ * 
+ *         2018-03-01 - added setValueQuiet(int value); 2018-07-21 - Factored
+ *         out (SeekDocument) DisplayDocument - Added capacity to set/reset
+ *         display formats 2018-07-30 - added Apater_HDNumberBox. & selectAll on
+ *         focus gained
  */
-/* @formatter:on  */
+/* @formatter:on */
 
 public class HDNumberBox extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -78,32 +81,31 @@ public class HDNumberBox extends JPanel {
 	public void setMinValue(int newMinValue) {
 		rangeModel.setMinimum(newMinValue);
 	}// setMinValue
-	
-	public void setRange(int newMinValue,int newMaxValue) {
-		setMinValue( newMinValue);
-		setMaxValue( newMaxValue);
+
+	public void setRange(int newMinValue, int newMaxValue) {
+		setMinValue(newMinValue);
+		setMaxValue(newMaxValue);
 	}// setRange
 
 	public void setDecimalDisplay() {
 		setDecimalDisplay(true);
 	}// setDecimalDisplay
-/*
- * Cannot use commas for decimal display
- */
-//	public void setDecimalDisplay(String format) {
-//		String trimmedFormat = format.trim();
-//		Pattern decimalPattern = Pattern.compile("\\%[0-9]*d");
-//		Matcher decimalMatcher = decimalPattern.matcher(trimmedFormat);
-//		if (decimalMatcher.matches()) {
-//			decimalDisplayFormat = trimmedFormat;
-//		} else {
-//			System.err.printf("[HDNumberBox.setDecimalDisplay] Invalid argument \"%s\"%n", format);
-//			decimalDisplayFormat = FORMAT_DECIMAL;
-//		} // if good
-//		setDecimalDisplay(true);
-//	}// setDecimalDisplay
-
-
+	/*
+	 * Cannot use commas for decimal display
+	 */
+	// public void setDecimalDisplay(String format) {
+	// String trimmedFormat = format.trim();
+	// Pattern decimalPattern = Pattern.compile("\\%[0-9]*d");
+	// Matcher decimalMatcher = decimalPattern.matcher(trimmedFormat);
+	// if (decimalMatcher.matches()) {
+	// decimalDisplayFormat = trimmedFormat;
+	// } else {
+	// System.err.printf("[HDNumberBox.setDecimalDisplay] Invalid argument
+	// \"%s\"%n", format);
+	// decimalDisplayFormat = FORMAT_DECIMAL;
+	// } // if good
+	// setDecimalDisplay(true);
+	// }// setDecimalDisplay
 
 	public void setHexDisplay() {
 		setDecimalDisplay(false);
@@ -118,16 +120,16 @@ public class HDNumberBox extends JPanel {
 			hexDisplayFormat = trimmedFormat;
 		} else {
 			System.err.printf("[HDNumberBox.setHexDisplay] Invalid argument \"%s\"%n", format);
-//			resetHexDisplay();
+			// resetHexDisplay();
 			hexDisplayFormat = FORMAT_HEX;
 		} // if good
 
 		setDecimalDisplay(false);
 	}// setHexDisplay
 
-//	public void resetHexDisplay() {
-//		hexDisplayFormat = FORMAT_HEX;
-//	}// resetHexDisplay
+	// public void resetHexDisplay() {
+	// hexDisplayFormat = FORMAT_HEX;
+	// }// resetHexDisplay
 
 	public void setDecimalDisplay(boolean displayDecimal) {
 		String tipText = "";
@@ -207,7 +209,6 @@ public class HDNumberBox extends JPanel {
 		} else {
 			setHexDisplay();
 		} // if
-
 	}// Constructor
 
 	/* <><><><> */
@@ -217,16 +218,24 @@ public class HDNumberBox extends JPanel {
 
 		currentValue = (int) rangeModel.getValue();
 		txtValueDisplay.setDocument(displayDoc);
-		txtValueDisplay.setPreferredSize(new Dimension(100, 23));
+		txtValueDisplay.setPreferredSize(new Dimension(0, 0));
 		hdNumberValueChangeListenerList = new EventListenerList();
 		muteNumberChangeEvent = false;
 	}// appInit
 
 	private void Initialize() {
 		setPreferredSize(new Dimension(100, 35));
+		this.setMinimumSize(new Dimension(100, 35));
 
 		setBorder(UIManager.getBorder("TextField.border"));
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 75, 0 };
+		gridBagLayout.rowHeights = new int[] { 23, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		setLayout(gridBagLayout);
 
+		
 		txtValueDisplay = new JFormattedTextField();
 		txtValueDisplay.setMaximumSize(new Dimension(0, 0));
 		txtValueDisplay.setMinimumSize(new Dimension(75, 20));
@@ -234,11 +243,17 @@ public class HDNumberBox extends JPanel {
 		txtValueDisplay.setFont(new Font("Courier New", Font.PLAIN, 13));
 		txtValueDisplay.addFocusListener(adapterHDNB);
 
-		setLayout(new GridLayout(0, 1, 0, 0));
-
 		txtValueDisplay.setHorizontalAlignment(SwingConstants.RIGHT);
-		txtValueDisplay.setPreferredSize(new Dimension(100, 23));
-		add(txtValueDisplay);
+//		txtValueDisplay.setPreferredSize(new Dimension(55, 20));
+
+		
+		GridBagConstraints gbc_txtValueDisplay = new GridBagConstraints();
+		gbc_txtValueDisplay.fill = GridBagConstraints.BOTH;
+		gbc_txtValueDisplay.gridx = 0;
+		gbc_txtValueDisplay.gridy = 0;
+		add(txtValueDisplay, gbc_txtValueDisplay);
+
+		// add(txtValueDisplay);
 	}// Constructor
 
 	// ---------------------------
@@ -295,7 +310,7 @@ public class HDNumberBox extends JPanel {
 		}// focusLost
 
 	}// class Adapter_HDNumberBox
-	
+
 	private static final String FORMAT_HEX = "%X";
 	private static final String FORMAT_DECIMAL = "%d";
 }// class HDNumberBox
