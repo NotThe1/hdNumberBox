@@ -99,9 +99,9 @@ public class testHDbox {
 		splitPane.setLeftComponent(panelLeft);
 		GridBagLayout gbl_panelLeft = new GridBagLayout();
 		gbl_panelLeft.columnWidths = new int[]{200, 80, 80, 80, 0};
-		gbl_panelLeft.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panelLeft.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0};
-		gbl_panelLeft.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelLeft.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelLeft.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0};
+		gbl_panelLeft.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelLeft.setLayout(gbl_panelLeft);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
@@ -156,7 +156,7 @@ public class testHDbox {
 		GridBagConstraints gbc_verticalStrut_2 = new GridBagConstraints();
 		gbc_verticalStrut_2.insets = new Insets(0, 0, 5, 5);
 		gbc_verticalStrut_2.gridx = 0;
-		gbc_verticalStrut_2.gridy = 2;
+		gbc_verticalStrut_2.gridy = 3;
 		panelLeft.add(verticalStrut_2, gbc_verticalStrut_2);
 		
 		JButton btnSetRange = new JButton("Set Range");
@@ -184,7 +184,7 @@ public class testHDbox {
 		gbc_lblMin.anchor = GridBagConstraints.EAST;
 		gbc_lblMin.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMin.gridx = 1;
-		gbc_lblMin.gridy = 3;
+		gbc_lblMin.gridy = 4;
 		panelLeft.add(lblMin, gbc_lblMin);
 		
 		JLabel lblMax = new JLabel("Max");
@@ -196,7 +196,7 @@ public class testHDbox {
 		gbc_lblMax.anchor = GridBagConstraints.EAST;
 		gbc_lblMax.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMax.gridx = 2;
-		gbc_lblMax.gridy = 3;
+		gbc_lblMax.gridy = 4;
 		panelLeft.add(lblMax, gbc_lblMax);
 		
 		JLabel lblCurrent = new JLabel("Current");
@@ -208,13 +208,13 @@ public class testHDbox {
 		gbc_lblCurrent.anchor = GridBagConstraints.EAST;
 		gbc_lblCurrent.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCurrent.gridx = 3;
-		gbc_lblCurrent.gridy = 3;
+		gbc_lblCurrent.gridy = 4;
 		panelLeft.add(lblCurrent, gbc_lblCurrent);
 		GridBagConstraints gbc_btnSetRange = new GridBagConstraints();
 		gbc_btnSetRange.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSetRange.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSetRange.gridx = 0;
-		gbc_btnSetRange.gridy = 4;
+		gbc_btnSetRange.gridy = 5;
 		panelLeft.add(btnSetRange, gbc_btnSetRange);
 		
 		spinMin = new JSpinner();
@@ -224,7 +224,7 @@ public class testHDbox {
 		GridBagConstraints gbc_spinMin = new GridBagConstraints();
 		gbc_spinMin.insets = new Insets(0, 0, 5, 5);
 		gbc_spinMin.gridx = 1;
-		gbc_spinMin.gridy = 4;
+		gbc_spinMin.gridy = 5;
 		panelLeft.add(spinMin, gbc_spinMin);
 		
 		spinMax = new JSpinner();
@@ -234,7 +234,7 @@ public class testHDbox {
 		GridBagConstraints gbc_spinMax = new GridBagConstraints();
 		gbc_spinMax.insets = new Insets(0, 0, 5, 5);
 		gbc_spinMax.gridx = 2;
-		gbc_spinMax.gridy = 4;
+		gbc_spinMax.gridy = 5;
 		panelLeft.add(spinMax, gbc_spinMax);
 		
 		spinCurrent = new JSpinner();
@@ -244,14 +244,14 @@ public class testHDbox {
 		GridBagConstraints gbc_spinCurrent = new GridBagConstraints();
 		gbc_spinCurrent.insets = new Insets(0, 0, 5, 5);
 		gbc_spinCurrent.gridx = 3;
-		gbc_spinCurrent.gridy = 4;
+		gbc_spinCurrent.gridy = 5;
 		panelLeft.add(spinCurrent, gbc_spinCurrent);
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
 		gbc_verticalStrut.insets = new Insets(0, 0, 5, 5);
 		gbc_verticalStrut.gridx = 0;
-		gbc_verticalStrut.gridy = 5;
+		gbc_verticalStrut.gridy = 6;
 		panelLeft.add(verticalStrut, gbc_verticalStrut);
 		
 		JButton btnSetValue = new JButton("Set Value");
@@ -267,7 +267,7 @@ public class testHDbox {
 		gbc_btnSetValue.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSetValue.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSetValue.gridx = 0;
-		gbc_btnSetValue.gridy = 6;
+		gbc_btnSetValue.gridy = 7;
 		panelLeft.add(btnSetValue, gbc_btnSetValue);
 		
 		JLabel lblValue = new JLabel("Value");
@@ -278,14 +278,14 @@ public class testHDbox {
 		GridBagConstraints gbc_lblValue = new GridBagConstraints();
 		gbc_lblValue.insets = new Insets(0, 0, 5, 5);
 		gbc_lblValue.gridx = 2;
-		gbc_lblValue.gridy = 6;
+		gbc_lblValue.gridy = 7;
 		panelLeft.add(lblValue, gbc_lblValue);
 		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_3 = new GridBagConstraints();
 		gbc_verticalStrut_3.insets = new Insets(0, 0, 5, 5);
 		gbc_verticalStrut_3.gridx = 0;
-		gbc_verticalStrut_3.gridy = 7;
+		gbc_verticalStrut_3.gridy = 8;
 		panelLeft.add(verticalStrut_3, gbc_verticalStrut_3);
 		
 		JButton btnSetValueQuiet = new JButton("Set Value Quiet");
@@ -302,7 +302,7 @@ public class testHDbox {
 		GridBagConstraints gbc_spinValue = new GridBagConstraints();
 		gbc_spinValue.insets = new Insets(0, 0, 5, 5);
 		gbc_spinValue.gridx = 2;
-		gbc_spinValue.gridy = 7;
+		gbc_spinValue.gridy = 8;
 		panelLeft.add(spinValue, gbc_spinValue);
 		btnSetValueQuiet.setMaximumSize(new Dimension(0, 0));
 		btnSetValueQuiet.setPreferredSize(new Dimension(120, 23));
@@ -311,14 +311,14 @@ public class testHDbox {
 		gbc_btnSetValueQuiet.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSetValueQuiet.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSetValueQuiet.gridx = 0;
-		gbc_btnSetValueQuiet.gridy = 8;
+		gbc_btnSetValueQuiet.gridy = 9;
 		panelLeft.add(btnSetValueQuiet, gbc_btnSetValueQuiet);
 		
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_4 = new GridBagConstraints();
 		gbc_verticalStrut_4.insets = new Insets(0, 0, 5, 5);
 		gbc_verticalStrut_4.gridx = 0;
-		gbc_verticalStrut_4.gridy = 9;
+		gbc_verticalStrut_4.gridy = 10;
 		panelLeft.add(verticalStrut_4, gbc_verticalStrut_4);
 		
 		JButton btnNewButton = new JButton("Hex format \"%04X\"");
@@ -333,7 +333,7 @@ public class testHDbox {
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 10;
+		gbc_btnNewButton.gridy = 11;
 		panelLeft.add(btnNewButton, gbc_btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Reset Format");
@@ -346,8 +346,9 @@ public class testHDbox {
 		gbc_btnNewButton_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 11;
+		gbc_btnNewButton_1.gridy = 12;
 		panelLeft.add(btnNewButton_1, gbc_btnNewButton_1);
+		
 		splitPane.setDividerLocation(450);
 	}//initialize
 	

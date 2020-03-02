@@ -54,7 +54,6 @@ public class HDNbox extends JPanel{
 	Adapter_HDNumberBox adapterHDNB = new Adapter_HDNumberBox();
 
 	int currentValue, priorValue;
-	JFormattedTextField txtValueDisplay;
 	EventListenerList hdNumberValueChangeListenerList;
 	String decimalDisplayFormat;
 	String hexDisplayFormat;
@@ -341,8 +340,10 @@ public class HDNbox extends JPanel{
 
 	private static final String FORMAT_HEX = "%X";
 	private static final String FORMAT_DECIMAL = "%d";
-	public JButton btnFirst;
-	public JButton btnPrior;
-	public JButton btnNext;
-	public JButton btnLast;
+	protected JButton btnFirst;
+	protected JButton btnPrior;
+	protected JButton btnNext;
+	protected JButton btnLast;
+	protected JFormattedTextField txtValueDisplay;
+
 }//class HDNbox
