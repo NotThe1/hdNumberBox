@@ -1,4 +1,5 @@
 package hdNumberBox;
+/* @formatter:off */
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -18,16 +19,15 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.EventListenerList;
 
-/* @formatter:off */
 
 /**
  * 
- * @author Frank Martyn. This is a text box that only accepts either decimal or
- *         hexadecimal numbers. It supports a DefaultBoundedRangeModel to manage
- *         the values range of input data. The value input is limited byte the
- *         DefaultBoundedRangeModel. If value is greater than Max the value will
- *         be fixed to Max Value. Similarly if less than Min, the value will be
- *         fixed at Min Value.
+ * @author Frank Martyn. This is a JFormatted text box that only accepts either
+ *         decimal or hexadecimal numbers. It supports a DefaultBoundedRangeModel
+ *         to manage the values range of input data. The value input is limited
+ *         byte the DefaultBoundedRangeModel. If value is greater than Max the
+ *         value will be fixed to Max Value. Similarly if less than Min, the
+ *         value will be fixed at Min Value.
  * 
  *         The range of the value is Integer.Min to Integer.MAX.
  * 
@@ -37,6 +37,9 @@ import javax.swing.event.EventListenerList;
  *         The method mute(boolean state) disables/enables the
  *         fireSeekValueChanged() method, so values can be changed without
  *         triggering events
+ *         
+ *         2020-03-02 - Rewritten to accommodate seek panel. has 4 unused buttons
+ *         that are placed in the class for the seek panel
  * 
  *         2018-03-01 - added setValueQuiet(int value); 2018-07-21 - Factored
  *         out (SeekDocument) DisplayDocument - Added capacity to set/reset
@@ -44,8 +47,7 @@ import javax.swing.event.EventListenerList;
  *         focus gained
  */
 /* @formatter:on */
-
-public class HDNumberBox extends JPanel {
+public class HDNbox extends JPanel{
 	private static final long serialVersionUID = 1L;
 
 	DefaultBoundedRangeModel rangeModel = new DefaultBoundedRangeModel();
@@ -59,55 +61,7 @@ public class HDNumberBox extends JPanel {
 	boolean showDecimal = true;
 	DisplayDocument displayDoc;
 	boolean muteNumberChangeEvent;
-
-	public int getValue() {
-		return currentValue;
-	}// getValue
-
-	public void setValue(int newValue) {
-		setNewValue(newValue);
-		return;
-	}// setValue
-
-	public void setValueQuiet(int newValue) {
-		muteNumberChangeEvent = true;
-		setNewValue(newValue);
-		muteNumberChangeEvent = false;
-	}// setValueQuiet
-
-	public void setMaxValue(int newMaxValue) {
-		rangeModel.setMaximum(newMaxValue);
-	}// setMaxValue
-
-	public void setMinValue(int newMinValue) {
-		rangeModel.setMinimum(newMinValue);
-	}// setMinValue
-
-	public void setRange(int newMinValue, int newMaxValue) {
-		setMinValue(newMinValue);
-		setMaxValue(newMaxValue);
-	}// setRange
-
-	public void setDecimalDisplay() {
-		setDecimalDisplay(true);
-	}// setDecimalDisplay
-	/*
-	 * Cannot use commas for decimal display
-	 */
-	// public void setDecimalDisplay(String format) {
-	// String trimmedFormat = format.trim();
-	// Pattern decimalPattern = Pattern.compile("\\%[0-9]*d");
-	// Matcher decimalMatcher = decimalPattern.matcher(trimmedFormat);
-	// if (decimalMatcher.matches()) {
-	// decimalDisplayFormat = trimmedFormat;
-	// } else {
-	// System.err.printf("[HDNumberBox.setDecimalDisplay] Invalid argument
-	// \"%s\"%n", format);
-	// decimalDisplayFormat = FORMAT_DECIMAL;
-	// } // if good
-	// setDecimalDisplay(true);
-	// }// setDecimalDisplay
-
+	
 	public void setHexDisplay() {
 		setDecimalDisplay(false);
 	}// setHexDisplay
@@ -127,10 +81,10 @@ public class HDNumberBox extends JPanel {
 
 		setDecimalDisplay(false);
 	}// setHexDisplay
-
-	// public void resetHexDisplay() {
-	// hexDisplayFormat = FORMAT_HEX;
-	// }// resetHexDisplay
+	
+	public void setDecimalDisplay() {
+		setDecimalDisplay(true);
+	}// setDecimalDisplay
 
 	public void setDecimalDisplay(boolean displayDecimal) {
 		String tipText = "";
@@ -145,18 +99,12 @@ public class HDNumberBox extends JPanel {
 		displayValue();
 		txtValueDisplay.setToolTipText(tipText);
 	}// setHexDisplay
-
+	
 	public void resetDisplayFormat() {
 		hexDisplayFormat = FORMAT_HEX;
 		decimalDisplayFormat = FORMAT_DECIMAL;
 	}// restDisplayFormat
-
-	public boolean isDecimalDisplay() {
-		return showDecimal;
-	}// isDecimalDisplay
-
-	// ---------------------------------------
-
+	
 	private void displayValue() {
 		String displayFormat = showDecimal ? decimalDisplayFormat : hexDisplayFormat;
 		currentValue = (int) rangeModel.getValue();
@@ -166,6 +114,25 @@ public class HDNumberBox extends JPanel {
 		// txtValueDisplay.repaint();
 	}// showValue
 
+	public boolean isDecimalDisplay() {
+		return showDecimal;
+	}// isDecimalDisplay
+	
+	public int getValue() {
+		return currentValue;
+	}// getValue
+
+	public void setValue(int newValue) {
+		setNewValue(newValue);
+		return;
+	}// setValue
+
+	public void setValueQuiet(int newValue) {
+		muteNumberChangeEvent = true;
+		setNewValue(newValue);
+		muteNumberChangeEvent = false;
+	}// setValueQuiet
+	
 	void setNewValue(int newValue) {
 		newValue = Math.min(newValue, (int) rangeModel.getMaximum()); // upper
 		newValue = Math.max(newValue, (int) rangeModel.getMinimum()); // lower
@@ -182,28 +149,54 @@ public class HDNumberBox extends JPanel {
 		} // if
 	}// newValue
 
-	// -------------------------------------------------------
 
-	/* <><><><> */
 
-	public HDNumberBox() {
+	public void setMaxValue(int newMaxValue) {
+		rangeModel.setMaximum(newMaxValue);
+	}// setMaxValue
+	
+	public int getMaxValue() {
+		return rangeModel.getMaximum();
+	}//getMaxValue
+
+	public void setMinValue(int newMinValue) {
+		rangeModel.setMinimum(newMinValue);
+	}// setMinValue
+	
+	public int getMinValue() {
+		return rangeModel.getMinimum();
+	}//getMinValue
+
+	
+
+	public void setRange(int newMinValue, int newMaxValue) {
+		setMinValue(newMinValue);
+		setMaxValue(newMaxValue);
+	}// setRange
+
+
+
+
+
+	// ---------------------------	// ---------------------------
+	
+	public HDNbox() {
 		this(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, false);
-	}// Constructor
+	}//Constructor
 
-	public HDNumberBox(boolean decimalDisplay) {
+	public HDNbox(boolean decimalDisplay) {
 		this(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, decimalDisplay);
 	}// Constructor
 
-	public HDNumberBox(int minValue, int maxValue, int initValue, boolean decimalDisplay) {
+	public HDNbox(int minValue, int maxValue, int initValue, boolean decimalDisplay) {
 		this.rangeModel.setMinimum(minValue);
 		this.rangeModel.setMaximum(maxValue);
 		this.rangeModel.setValue(initValue);
 		setBackground(UIManager.getColor("TextArea.background"));
-		// this.rangeModel.setExtent(maxValue - initValue);
 
 		displayDoc = new DisplayDocument(true);
 
-		Initialize();
+		initialize();
 		appInit();
 
 		if (decimalDisplay) {
@@ -212,9 +205,7 @@ public class HDNumberBox extends JPanel {
 			setHexDisplay();
 		} // if
 	}// Constructor
-
-	/* <><><><> */
-
+	
 	private void appInit() {
 		resetDisplayFormat();
 
@@ -227,8 +218,8 @@ public class HDNumberBox extends JPanel {
 		btnNext.setVisible(false);
 		btnLast.setVisible(false);
 	}// appInit
-
-	private void Initialize() {
+	
+	private void initialize() {
 		setPreferredSize(new Dimension(263, 23));
 		this.setMinimumSize(new Dimension(75, 23));
 
@@ -245,7 +236,6 @@ public class HDNumberBox extends JPanel {
 		btnFirst.setVisible(false);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 0;
 		add(btnFirst, gbc_btnNewButton);
@@ -254,7 +244,6 @@ public class HDNumberBox extends JPanel {
 		btnPrior.setVisible(false);
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_1.gridx = 1;
 		gbc_btnNewButton_1.gridy = 0;
 		add(btnPrior, gbc_btnNewButton_1);
@@ -269,7 +258,6 @@ public class HDNumberBox extends JPanel {
 		txtValueDisplay.setPreferredSize(new Dimension(75, 20));
 		
 		GridBagConstraints gbc_txtValueDisplay = new GridBagConstraints();
-//		gbc_txtValueDisplay.insets = new Insets(0, 0, 0, 0);
 		gbc_txtValueDisplay.fill = GridBagConstraints.BOTH;
 		gbc_txtValueDisplay.gridx = 2;
 		gbc_txtValueDisplay.gridy = 0;
@@ -279,7 +267,6 @@ public class HDNumberBox extends JPanel {
 		btnNext.setVisible(false);
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_btnNewButton_2.insets = new Insets(0, 0, 0, 0);
 		gbc_btnNewButton_2.gridx = 3;
 		gbc_btnNewButton_2.gridy = 0;
 		add(btnNext, gbc_btnNewButton_2);
@@ -293,10 +280,10 @@ public class HDNumberBox extends JPanel {
 		gbc_btnNewButton_3.gridy = 0;
 		add(btnLast, gbc_btnNewButton_3);
 
-		// add(txtValueDisplay);
-	}// Constructor
-
-	// ---------------------------
+	}// initialize	
+	
+	
+	// ---------------------------	// ---------------------------
 	public void addHDNumberValueChangedListener(HDNumberValueChangeListener seekValueChangeListener) {
 		hdNumberValueChangeListenerList.add(HDNumberValueChangeListener.class, seekValueChangeListener);
 	}// addSeekValueChangedListener
@@ -319,6 +306,7 @@ public class HDNumberBox extends JPanel {
 
 	}// fireSeekValueChanged
 
+	// --------------------------------------------------------
 	// --------------------------------------------------------
 
 	private class Adapter_HDNumberBox implements FocusListener {
@@ -357,4 +345,4 @@ public class HDNumberBox extends JPanel {
 	public JButton btnPrior;
 	public JButton btnNext;
 	public JButton btnLast;
-}// class HDNumberBox
+}//class HDNbox

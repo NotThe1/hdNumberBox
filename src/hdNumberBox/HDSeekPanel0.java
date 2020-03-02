@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 
-public class HDSeekPanel extends HDNumberBox {
+public class HDSeekPanel0 extends HDNbox {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,11 +35,11 @@ public class HDSeekPanel extends HDNumberBox {
 
 	// -------------------------------------------------------
 
-	public HDSeekPanel() {
+	public HDSeekPanel0() {
 		this(true);
 	}// Constructor
 
-	public HDSeekPanel(boolean decimalDisplay) {
+	public HDSeekPanel0(boolean decimalDisplay) {
 		super(decimalDisplay);
 		initialize();
 		appInit();

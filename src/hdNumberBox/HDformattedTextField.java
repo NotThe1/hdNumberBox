@@ -10,32 +10,32 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.EventListenerList;
 
 public class HDformattedTextField extends JFormattedTextField {
 	private static final long serialVersionUID = 1L;
-	
+
 	DefaultBoundedRangeModel rangeModel = new DefaultBoundedRangeModel();
 	AdapterHDformattedTextField adapterPrimary = new AdapterHDformattedTextField();
 	EventListenerList valueChangeListeneList = new EventListenerList();
 	DisplayDocument displayDoc = new DisplayDocument(true);
 	String decimalDisplayFormat = FORMAT_DECIMAL;
 	String hexDisplayFormat = FORMAT_HEX;
-	
+
 	int currentValue, priorValue;
 	boolean showDecimal = true;
 	boolean muteNumberChangeEvent = false;
 
-
 	public HDformattedTextField() {
-		this(Integer.MIN_VALUE,Integer.MAX_VALUE,0,false);
-	}//Constructor
+		this(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, false);
+	}// Constructor
 
-	public HDformattedTextField(boolean decimalDisplay ) {
-		this(Integer.MIN_VALUE,Integer.MAX_VALUE,0,decimalDisplay);
-	}//Constructor
+	public HDformattedTextField(boolean decimalDisplay) {
+		this(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, decimalDisplay);
+	}// Constructor
 
-	public HDformattedTextField(int minValue,int maxValue,int initValue,boolean decimalDisplay) {
+	public HDformattedTextField(int minValue, int maxValue, int initValue, boolean decimalDisplay) {
 		rangeModel.setMinimum(minValue);
 		rangeModel.setMaximum(maxValue);
 		rangeModel.setValue(initValue);
@@ -43,128 +43,134 @@ public class HDformattedTextField extends JFormattedTextField {
 
 		initialize();
 		appInit();
-	}//Constructor
-	
+	}// Constructor
+
 	private void appInit() {
 		setDecimalDisplay(showDecimal);
 		resetDisplayFormat();
 		currentValue = rangeModel.getValue();
 		muteNumberChangeEvent = false;
-	}//appInit
-	
+	}// appInit
+
 	private void initialize() {
+		this.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.setFont(new Font("Courier New", Font.PLAIN, 13));
 		this.addFocusListener(adapterPrimary);
+		this.setMaximumSize(new Dimension(0, 0));
 		this.setMinimumSize(new Dimension(55, 20));
+		this.setPreferredSize(new Dimension(55, 20));
 		this.setDocument(displayDoc);
-	}//initialize
+	}// initialize
 
-
-	
 	////////////////////////////////////////////////////////////////////////
 
 	public int getCurrentValue() {
 		return currentValue;
-	}//getCurrentValue
-	
+	}// getCurrentValue
+
 	public void setValue(int newValue) {
 		setNewValue(newValue);
-	}//setValue
-	
+	}// setValue
+
 	public void setValueQuiet(int newValue) {
 		muteNumberChangeEvent = true;
 		setValue(newValue);
 		muteNumberChangeEvent = false;
-	}//setValueQuiet
-	
+	}// setValueQuiet
+
 	public void setMaxValue(int newMaxValue) {
 		rangeModel.setMaximum(newMaxValue);
-	}//setMaxValue
+	}// setMaxValue
 	
+	public int getMaxValue() {
+		return rangeModel.getMaximum();
+	}// getMaxValue
+
 	public void setMinValue(int newMinValue) {
 		rangeModel.setMinimum(newMinValue);
-	}//setMinValue
-	
-	public void setRange(int newMinValue,int newMaxValue) {
+	}// setMinValue
+
+	public int getMinValue() {
+		return rangeModel.getMinimum();
+	}// getMaxValue
+
+	public void setRange(int newMinValue, int newMaxValue) {
 		setMinValue(newMinValue);
 		setMaxValue(newMaxValue);
-	}//setRange
-	
+	}// setRange
+
 	public void setDecimalDisplay() {
 		setDecimalDisplay(true);
-	}//setDecimalDisplay
-	
+	}// setDecimalDisplay
+
 	public void setDecimalDisplay(boolean displayDecimal) {
 		String tipText = "";
 		showDecimal = displayDecimal;
-		if(displayDecimal) {
+		if (displayDecimal) {
 			displayDoc.displayDecimal();
 			tipText = "Display is Decimal";
-		}else {
+		} else {
 			displayDoc.displayHex();
 			tipText = "Display is Hex";
-		}// if display decimal
+		} // if display decimal
 		displayValue();
 		this.setToolTipText(tipText);
-	}//setDecimalDisplay
-	
+	}// setDecimalDisplay
+
 	public void setHexDisplay() {
 		setDecimalDisplay(false);
-	}//setHexDisplay
-	
+	}// setHexDisplay
+
 	public void setHexDisplay(String format) {
 		String trimmedFormat = format.trim().toUpperCase();
 		Pattern hexPattern = Pattern.compile("\\%[0-9]*X");
-		
+
 		Matcher hexMatcher = hexPattern.matcher(trimmedFormat);
 		if (hexMatcher.matches()) {
 			hexDisplayFormat = trimmedFormat;
-		}else {
+		} else {
 			System.err.printf("[HDNumberBox.setHexDisplay] Invalid argument \"%s\"%n", format);
 			hexDisplayFormat = FORMAT_HEX;
-		}// if good format
+		} // if good format
 		setDecimalDisplay(false);
-	}//setHexDisplay
-	
+	}// setHexDisplay
+
 	public void resetDisplayFormat() {
 		hexDisplayFormat = FORMAT_HEX;
 		decimalDisplayFormat = FORMAT_DECIMAL;
-	}//resetDisplayFormat
-	
+	}// resetDisplayFormat
+
 	public boolean isDecimalDisplay() {
 		return showDecimal;
-	}//isDecimalDisplay
-	
-	
-	
+	}// isDecimalDisplay
+
 	private void setNewValue(int newValue) {
 		newValue = Math.min(newValue, (int) rangeModel.getMaximum()); // upper
 		newValue = Math.max(newValue, (int) rangeModel.getMinimum()); // lower
-		
+
 		priorValue = rangeModel.getValue();
-		currentValue =newValue;
+		currentValue = newValue;
 		rangeModel.setValue(newValue);
 		displayValue();
 		if (muteNumberChangeEvent) {
 			return;
-		}//if mute
-		
-		if(priorValue != currentValue) {
+		} // if mute
+
+		if (priorValue != currentValue) {
 			fireSeekValueChanged();
-		}// if new
-	}//setNewValue
-	
-	
+		} // if new
+	}// setNewValue
+
 	private void displayValue() {
-		String displayFormat = showDecimal? decimalDisplayFormat:hexDisplayFormat;
-//		 displayFormat = showDecimal? "%d":"%04X";
+		String displayFormat = showDecimal ? decimalDisplayFormat : hexDisplayFormat;
+		// displayFormat = showDecimal? "%d":"%04X";
 
 		currentValue = rangeModel.getValue();
 		String stringValue = String.format(displayFormat, currentValue);
-//		String stringValue = String.format(displayFormat, currentValue);
+		// String stringValue = String.format(displayFormat, currentValue);
 		this.setText(stringValue);
-	}//displayValue
-	
+	}// displayValue
+
 	////////////////////////////////////////////////////////////////////////
 	// ---------------------------
 	public void addHDNumberValueChangedListener(HDNumberValueChangeListener seekValueChangeListener) {
@@ -189,10 +195,10 @@ public class HDformattedTextField extends JFormattedTextField {
 
 	}// fireSeekValueChanged
 
-	// --------------------------------------------------------	
-	
+	// --------------------------------------------------------
+
 	////////////////////////////////////////////////////////////////////////
-	class AdapterHDformattedTextField implements FocusListener{
+	class AdapterHDformattedTextField implements FocusListener {
 
 		@Override
 		public void focusGained(FocusEvent focusEvent) {
@@ -201,7 +207,7 @@ public class HDformattedTextField extends JFormattedTextField {
 				JFormattedTextField textBox = (JFormattedTextField) source;
 				textBox.selectAll();
 			} // if
-		}//focusGained
+		}// focusGained
 
 		@Override
 		public void focusLost(FocusEvent focusEvent) {
@@ -218,11 +224,11 @@ public class HDformattedTextField extends JFormattedTextField {
 					setNewValue(rangeModel.getValue());
 				} // try
 			} // if
-		}//focusLost
-		
-	}//class AdapterHDformattedTextField
-	
+		}// focusLost
+
+	}// class AdapterHDformattedTextField
+
 	private static final String FORMAT_HEX = "%X";
 	private static final String FORMAT_DECIMAL = "%d";
 
-}//class HDformattedTextField
+}// class HDformattedTextField
