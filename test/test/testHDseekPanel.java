@@ -170,9 +170,9 @@ public class testHDseekPanel {
 		panelLeft.add(panel_1, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
 		JLabel lblMin = new JLabel("Min");
@@ -282,10 +282,17 @@ public class testHDseekPanel {
 			}
 		});
 		GridBagConstraints gbc_btnNewValueQuiet = new GridBagConstraints();
-		gbc_btnNewValueQuiet.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewValueQuiet.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewValueQuiet.gridx = 0;
 		gbc_btnNewValueQuiet.gridy = 5;
 		panel_1.add(btnNewValueQuiet, gbc_btnNewValueQuiet);
+		
+		Hex64KSpinner hex64KSpinner = new Hex64KSpinner();
+		GridBagConstraints gbc_hex64KSpinner = new GridBagConstraints();
+		gbc_hex64KSpinner.insets = new Insets(0, 0, 0, 5);
+		gbc_hex64KSpinner.gridx = 0;
+		gbc_hex64KSpinner.gridy = 8;
+		panel_1.add(hex64KSpinner, gbc_hex64KSpinner);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut_1 = new GridBagConstraints();
