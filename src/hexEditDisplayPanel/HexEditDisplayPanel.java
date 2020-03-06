@@ -428,18 +428,18 @@ public class HexEditDisplayPanel extends JPanel implements Runnable {
 	}// makeStyles1
 		//////////////////////////////////////////////////////////////////////////////////////
 	//--------------------------------------------------
-	EventListenerList listenerList= new EventListenerList();
+	EventListenerList displayListenerList= new EventListenerList();
 	
 	public void addChangeListener(ChangeListener changeListener) {
-		listenerList.add(ChangeListener.class, changeListener);
+		displayListenerList.add(ChangeListener.class, changeListener);
 	}//addChangeListener
 	
 	public void removeChangeListener(ChangeListener changeListener) {
-		listenerList.remove(ChangeListener.class, changeListener);
+		displayListenerList.remove(ChangeListener.class, changeListener);
 	}//removeChangeListener
 	
 	protected void fireChangeEvent() {
-		Object[] listeners = listenerList.getListenerList();
+		Object[] listeners = displayListenerList.getListenerList();
 		//process
 		ChangeEvent changeEvent = new ChangeEvent(this);
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
