@@ -45,8 +45,6 @@ public class TestHexEditDisplayPanel {
 	private JFrame frmTemplate;
 	private JButton btnOne;
 	private JButton btnTwo;
-	private JButton btnThree;
-	private JButton btnFour;
 	private JSplitPane splitPane1;
 
 	private AppLogger log = AppLogger.getInstance();
@@ -72,69 +70,10 @@ public class TestHexEditDisplayPanel {
 	}// main
 
 	/* Standard Stuff */
-	
-	private void doBtnOne(){
-		int dataSize = (1024 * 4)+1;
-		ByteBuffer bb = ByteBuffer.allocate(dataSize);
-		bb.clear();
-		byte value;
-		for (int i = 0 ; i < bb.capacity();i++) {
-			value = (byte) (i & 0XFF);
-			bb.put(value);
-		}//for
-		hexPanel.clear();
-		hexPanel.setData(bb);
-		hexPanel.run();
-	}//doBtnOne
-	
-	private void doBtnTwo(){
-		int dataSize = (1024 * 4) + 2;
-		byte[] bb = new byte[dataSize];
-		byte value;
-		for (int i = 0 ; i < bb.length;i++) {
-			value = (byte) (i & 0XFF);
-			bb[i] = value;
-		}//for
-		hexPanel.clear();		
-		hexPanel.setData(bb);
-		hexPanel.run();
-	}//doBtnTwo
-	
-	private void doBtnThree(){
-		String RO = "Read Only";
-		String RW = "Read/Write";
-		
-		if (btnThree.getText().equals(RO)){
-			btnThree.setText(RW);
-//			hexPanel.setEditable(true);
-		}else {
-			btnThree.setText(RO);
-//			hexPanel.setEditable(false);		
-		}//if
-		
-	}//doBtnThree
-	
-	private void doBtnFour(){
-		
-	}//doBtnFour
-	
+
 	//---------------------------------------------------------
 	
-	private void doFileNew(){
-		
-	}//doFileNew
-	private void doFileOpen(){
-		
-	}//doFileOpen
-	private void doFileSave(){
-		
-	}//doFileSave
-	private void doFileSaveAs(){
-		
-	}//doFileSaveAs
-	private void doFilePrint(){
-		
-	}//doFilePrint
+
 	private void doFileExit(){
 		appClose();
 		System.exit(0);
@@ -242,7 +181,17 @@ public class TestHexEditDisplayPanel {
 		btnOne.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				doBtnOne();
+				int dataSize = (1024 * 4)+1;
+				ByteBuffer bb = ByteBuffer.allocate(dataSize);
+				bb.clear();
+				byte value;
+				for (int i = 0 ; i < bb.capacity();i++) {
+					value = (byte) (i & 0XFF);
+					bb.put(value);
+				}//for
+				hexPanel.clear();
+				hexPanel.setData(bb);
+				hexPanel.run();
 			}
 		});
 		btnOne.setMaximumSize(new Dimension(0, 0));
@@ -258,42 +207,21 @@ public class TestHexEditDisplayPanel {
 		btnTwo.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnTwo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				doBtnTwo();
+				int dataSize = (1024 * 4) + 2;
+				byte[] bb = new byte[dataSize];
+				byte value;
+				for (int i = 0 ; i < bb.length;i++) {
+					value = (byte) (i & 0XFF);
+					bb[i] = value;
+				}//for
+				hexPanel.clear();		
+				hexPanel.setData(bb);
+				hexPanel.run();
+
 			}
 		});
 		btnTwo.setPreferredSize(new Dimension(100, 20));
 		btnTwo.setMaximumSize(new Dimension(0, 0));
-		
-		btnThree = new JButton("Read/Write");
-		btnThree.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_btnThree = new GridBagConstraints();
-		gbc_btnThree.insets = new Insets(0, 0, 0, 5);
-		gbc_btnThree.gridx = 3;
-		gbc_btnThree.gridy = 0;
-		panelForButtons.add(btnThree, gbc_btnThree);
-		btnThree.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnThree.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doBtnThree();
-			}
-		});
-		btnThree.setPreferredSize(new Dimension(100, 20));
-		btnThree.setMaximumSize(new Dimension(0, 0));
-		
-		btnFour = new JButton("Button 4");
-		btnFour.setMinimumSize(new Dimension(100, 20));
-		GridBagConstraints gbc_btnFour = new GridBagConstraints();
-		gbc_btnFour.gridx = 4;
-		gbc_btnFour.gridy = 0;
-		panelForButtons.add(btnFour, gbc_btnFour);
-		btnFour.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnFour.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doBtnFour();
-			}
-		});
-		btnFour.setPreferredSize(new Dimension(100, 20));
-		btnFour.setMaximumSize(new Dimension(0, 0));
 		
 		splitPane1 = new JSplitPane();
 		GridBagConstraints gbc_splitPane1 = new GridBagConstraints();
@@ -382,52 +310,6 @@ public class TestHexEditDisplayPanel {
 		
 		JMenu mnuFile = new JMenu("File");
 		menuBar.add(mnuFile);
-		
-		JMenuItem mnuFileNew = new JMenuItem("New");
-		mnuFileNew.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				doFileNew();
-			}
-		});
-		mnuFile.add(mnuFileNew);
-		
-		JMenuItem mnuFileOpen = new JMenuItem("Open...");
-		mnuFileOpen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				doFileOpen();
-			}
-		});
-		mnuFile.add(mnuFileOpen);
-		
-		JSeparator separator99 = new JSeparator();
-		mnuFile.add(separator99);
-		
-		JMenuItem mnuFileSave = new JMenuItem("Save...");
-		mnuFileSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				doFileSave();
-			}
-		});
-		mnuFile.add(mnuFileSave);
-		
-		JMenuItem mnuFileSaveAs = new JMenuItem("Save As...");
-		mnuFileSaveAs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				doFileSaveAs();
-			}
-		});
-		mnuFile.add(mnuFileSaveAs);
-		
-		JSeparator separator_2 = new JSeparator();
-		mnuFile.add(separator_2);
-		
-		JMenuItem mnuFilePrint = new JMenuItem("Print...");
-		mnuFilePrint.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				doFilePrint();
-			}
-		});
-		mnuFile.add(mnuFilePrint);
 		
 		
 		JSeparator separator_1 = new JSeparator();
