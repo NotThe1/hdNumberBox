@@ -6,9 +6,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-
+/*
+ * use 277X23 for preferred size in users form
+ */
 public class HDNseek extends HDNbox {
+	Icon firstIcon = new ImageIcon(HDNseek.class.getResource("/first16.gif"));
+	Icon priorIcon = new ImageIcon(HDNseek.class.getResource("/prior16.gif"));
+	Icon nextIcon = new ImageIcon(HDNseek.class.getResource("/next16.gif"));
+	Icon lastIcon = new ImageIcon(HDNseek.class.getResource("/last16.gif"));
+
 	private static final long serialVersionUID = 1L;
 	AdapterForSeek adapterForSeek = new AdapterForSeek();
 	private int stepValue;
@@ -51,21 +60,28 @@ public class HDNseek extends HDNbox {
 	}// appInit
 
 	private void initialize() {
-		setPreferredSize(new Dimension(385, 30));
-
+		setPreferredSize(new Dimension(400, 30));
+		btnFirst.setText("");
+		btnFirst.setIcon(firstIcon);
 		btnFirst.setVisible(true);
 		btnFirst.addActionListener(adapterForSeek);
 		btnFirst.setName(FIRST);
 
 		btnPrior.setVisible(true);
+		btnPrior.setText("");
+		btnPrior.setIcon(priorIcon);
 		btnPrior.addActionListener(adapterForSeek);
 		btnPrior.setName(PRIOR);
 
 		btnNext.setVisible(true);
+		btnNext.setText("");
+		btnNext.setIcon(nextIcon);
 		btnNext.addActionListener(adapterForSeek);
 		btnNext.setName(NEXT);
 
 		btnLast.setVisible(true);
+		btnLast.setText("");
+		btnLast.setIcon(lastIcon);
 		btnLast.addActionListener(adapterForSeek);
 		btnLast.setName(LAST);
 

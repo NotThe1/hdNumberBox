@@ -125,8 +125,8 @@ public class testHDseekPanel {
 		gbc_nseek.gridx = 0;
 		gbc_nseek.gridy = 0;
 		panel.add(nseek, gbc_nseek);
-		nseek.setPreferredSize(new Dimension(260, 30));
-		nseek.setMinimumSize(new Dimension(260, 23));
+		nseek.setPreferredSize(new Dimension(277, 23));
+		nseek.setMinimumSize(new Dimension(277, 23));
 		GridBagLayout gbl_nseek = new GridBagLayout();
 		gbl_nseek.columnWidths = new int[]{0};
 		gbl_nseek.rowHeights = new int[]{0};
